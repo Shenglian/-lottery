@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>JS Bin</title>
+        <style>
+            html,
+            body {
+              margin: 0;
+              padding: 0;
+            }
+            
+            .box_group {
+              display: flex;
+              flex-wrap: wrap;
+            }
+
+            .boxs {
+              flex: 0 0 33%;
+              height: 100px;
+              line-height: 100px;
+              text-align: center;
+            }
+
+            .boxs.a {
+              background-color: #ffdde5;
+            }
+            .boxs.b {
+              background-color: #ddbbbb;
+            }
+            .boxs.c {
+              background-color: #ffddff;
+            }
+            .boxs.d {
+              background-color: #cce5ee;
+            }
+            .boxs.e {
+              background-color: #bbd4dd;
+            }
+            .boxs.f {
+              background-color: #bbddbb;
+            }
+            .boxs.g {
+              background-color: #eee5cc;
+            }
+            .boxs.h {
+              background-color: #bcd4d0;
+            }
+            .boxs.i {
+              background-color: #999999;
+            }
+        </style>
+    </head>
+    <body>
+      <div class="box_group">
+        <div class="boxs a">a</div>
+        <div class="boxs b">b</div>
+        <div class="boxs c">c</div>
+        <div class="boxs d">d</div>
+        <div class="boxs e">e</div>
+        <div class="boxs f">f</div>
+        <div class="boxs g">g</div>
+        <div class="boxs h">h</div>
+        <div class="boxs i">i</div>
+      </div>
+      <div class="start">Start</div>
+    </body>
+    <script>
+        var _boxs = document.querySelectorAll('.boxs');
+        var _num = 0;
+        var _stop = false;
+        var _color = 'rgb(0, 0, 0)';
+
+        function getTime(s){
+           return s * 10;
+        }
+
+        // setTimeout(function(){
+        //   stop = true;
+        // }, 10000)
+
+        function shuffle(a,b) {
+          var n = Math.random() > 0.5 ? -1 : 1;
+          return n;
+        }
+
+        function display(color){
+         
+          [].slice.call(_boxs).sort(shuffle).forEach(function(e, i){
+            setTimeout(function(){
+              e.style.backgroundColor = color;      
+              _num++;
+              
+              if (_num > 8) {
+                  _num = 0;
+                  var c = e.style.backgroundColor === 'rgb(0, 0, 0)' ? 
+                    'rgb(255, 255, 255)' : 
+                    'rgb(0, 0, 0)';
+                
+                  display(c);
+              }  
+              
+            }, 100 * i + getTime(i));
+            
+          })
+        }
+
+        document.querySelector('.start').addEventListener('click', function(){
+          display(_color);
+        })
+        
+    </script>
+</html>
