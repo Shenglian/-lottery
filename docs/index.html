@@ -10,104 +10,188 @@
               margin: 0;
               padding: 0;
             }
+
+            body {
+              display: -webkit-flex;
+              display: -moz-flex;
+              display: -ms-flex;
+              display: -o-flex;
+              display: flex;
+
+              flex-direction: column;
+
+              font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+              letter-spacing: 0;
+              font-weight: 400;
+              font-style: normal;
+              text-rendering: optimizeLegibility;
+              -webkit-font-smoothing: antialiased;
+            }
             
             .box_group {
+
+              display: -webkit-flex;
+              display: -moz-flex;
+              display: -ms-flex;
+              display: -o-flex;
               display: flex;
               flex-wrap: wrap;
+              margin: auto;
+              margin-top: 50px;
+              width: 600px;
             }
 
             .boxs {
-              flex: 0 0 33%;
-              height: 100px;
-              line-height: 100px;
-              text-align: center;
+              position: relative;
+              flex: 0 0 200px;
+              height: 200px;
+              -webkit-background-size: cover;
+              background-size: cover;
+            }
+
+            .boxs.addcover:before {
+              position: absolute;
+              content: '';
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background-color: rgba(0, 0, 0, .5);
             }
 
             .boxs.a {
               background-color: #ffdde5;
+              background-image: url(http://www.gratisography.com/pictures/361_1.jpg);
             }
             .boxs.b {
               background-color: #ddbbbb;
+              background-image: url(http://www.gratisography.com/pictures/360_1.jpg);
             }
             .boxs.c {
               background-color: #ffddff;
+              background-image: url(http://www.gratisography.com/pictures/338_1.jpg);
             }
             .boxs.d {
               background-color: #cce5ee;
+              background-image: url(http://www.gratisography.com/pictures/342_1.jpg);
             }
             .boxs.e {
               background-color: #bbd4dd;
+              background-image: url(http://www.gratisography.com/pictures/347_1.jpg);
             }
             .boxs.f {
               background-color: #bbddbb;
+              background-image: url(http://www.gratisography.com/pictures/350_1.jpg);
             }
             .boxs.g {
               background-color: #eee5cc;
+              background-image: url(http://www.gratisography.com/pictures/357_1.jpg);
             }
             .boxs.h {
               background-color: #bcd4d0;
+              background-image: url(http://www.gratisography.com/pictures/340_1.jpg);
             }
             .boxs.i {
               background-color: #999999;
+              background-image: url(http://www.gratisography.com/pictures/332_1.jpg);
             }
+
+            .start, 
+            .cancel {
+              margin: auto;
+              margin-top: 20px;
+              width: 150px;
+              height: 45px;
+              line-height: 45px;
+              text-align: center;
+              font-size: 14px;
+              border-radius: 3px;
+              cursor: pointer;
+            }
+
+            .start {
+              background-color: #333333;
+              color: #ffffff;
+            }
+            
+            .cancel {
+              border: 1px solid #333333;
+              color: #333333;
+            }
+
         </style>
     </head>
     <body>
       <div class="box_group">
-        <div class="boxs a">a</div>
-        <div class="boxs b">b</div>
-        <div class="boxs c">c</div>
-        <div class="boxs d">d</div>
-        <div class="boxs e">e</div>
-        <div class="boxs f">f</div>
-        <div class="boxs g">g</div>
-        <div class="boxs h">h</div>
-        <div class="boxs i">i</div>
+        <div class="boxs addcover a"></div>
+        <div class="boxs addcover b"></div>
+        <div class="boxs addcover c"></div>
+        <div class="boxs addcover d"></div>
+        <div class="boxs addcover e"></div>
+        <div class="boxs addcover f"></div>
+        <div class="boxs addcover g"></div>
+        <div class="boxs addcover h"></div>
+        <div class="boxs addcover i"></div>
       </div>
       <div class="start">Start</div>
+      <div class="cancel">Cancel</div>
     </body>
     <script>
         var _boxs = document.querySelectorAll('.boxs');
         var _num = 0;
         var _stop = false;
-        var _color = 'rgb(0, 0, 0)';
 
         function getTime(s){
-           return s * 10;
+          var c = 400,
+              d = 50;
+
+          return c - d  * s * 0.8;
         }
 
-        // setTimeout(function(){
-        //   stop = true;
-        // }, 10000)
+        function shuffle_b(arr) {
+            var i,
+                j,
+                temp;
+            for (i = arr.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr;
+        };
 
-        function shuffle(a,b) {
-          var n = Math.random() > 0.5 ? -1 : 1;
-          return n;
-        }
-
-        function display(color){
-         
-          [].slice.call(_boxs).sort(shuffle).forEach(function(e, i){
+        function display(){
+          if (_stop === true) return;
+          shuffle_b([].slice.call(_boxs)).forEach(function(e, i){
             setTimeout(function(){
-              e.style.backgroundColor = color;      
+
+              if (e.classList.contains('addcover')) {
+                e.classList.remove('addcover');  
+              } else {
+                e.classList.add('addcover');  
+              }
+              
               _num++;
               
               if (_num > 8) {
                   _num = 0;
-                  var c = e.style.backgroundColor === 'rgb(0, 0, 0)' ? 
-                    'rgb(255, 255, 255)' : 
-                    'rgb(0, 0, 0)';
-                
-                  display(c);
+
+                  display();
               }  
               
-            }, 100 * i + getTime(i));
+            }, getTime(i) );
             
           })
         }
 
         document.querySelector('.start').addEventListener('click', function(){
-          display(_color);
+          _stop = false;
+          display();
+        });
+
+        document.querySelector('.cancel').addEventListener('click', function(){
+          _stop = true;
         })
         
     </script>
