@@ -31,6 +31,7 @@
             }
             
             .box_group {
+              position: relative;
 
               display: -webkit-flex;
               display: -moz-flex;
@@ -142,6 +143,8 @@
         var _boxs = document.querySelectorAll('.boxs');
         var _num = 0;
         var _stop = false;
+        var _defaultWidth = null;
+        var _defaultHeight = null;
 
         function getTime(s){
           var c = 400,
@@ -172,9 +175,18 @@
           });  
         }
         
+        function changeBig(r){
+          let w = r.parentNode.clientWidth;
+          let h = r.parentNode.clientWidth;
+
+          r.style.position = 'absolute';
+          r.style.zIndex = 111111;
+          r.style.width = w + "px";
+          r.style.height = h+ "px";
+        }
 
         function display(){
-          if (_stop === true) return;
+          
           shuffle_b([].slice.call(_boxs)).forEach(function(e, i){
 
             setTimeout(function(){
@@ -183,11 +195,20 @@
               
               if (_num > 8) {
                 _num = 0;
+                
+                console.log('ii ======> ', i);
+                console.log('iie ======> ', e);
+                
+                if (_stop === true) {
+                  changeBig(e);
+                  return;
+                }
 
                 display();
 
               } else {
 
+                console.log('i ======> ', i);
                 resetAllStatus();
                 e.classList.remove('addcover');  
                 
@@ -206,6 +227,16 @@
 
         document.querySelector('.start').addEventListener('click', function(){
           _stop = false;
+
+          _boxs.forEach(function(e, i){
+            e.removeAttribute('style');
+
+            e.style.position = '';
+            e.style.zIndex = '';
+            e.style.width = _defaultWidth + "px";
+            e.style.height = _defaultHeight+ "px";
+          })
+
           display();
         });
 
@@ -216,6 +247,8 @@
         window.addEventListener('resize', function(event){
           _boxs.forEach(function(e, i){
             e.style.height = e.clientWidth + 'px';
+            _defaultWidth = e.clientWidth;
+            _defaultHeight = e.clientHeight;
           })
         });
         
