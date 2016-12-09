@@ -271,9 +271,9 @@
 
         d.querySelector('.start').addEventListener('click', () => {
 
-            if (_touch === true) {
+            // if (_touch === true) {
                 _stop = false;
-                _touch = false;
+                // _touch = false;
 
                 _boxs.forEach((e, i) => {
                     e.classList.remove('big');
@@ -283,7 +283,7 @@
                 })
 
                 toggleSilder();
-            }
+            // }
         });
 
         d.querySelector('.cancel').addEventListener('click', () => {
