@@ -197,7 +197,7 @@
         return arr;
     };
 
-    (function(w, d){
+    ((w, d) => {
 
         let _boxs = d.querySelectorAll('.boxs'),
             _num = 0,
@@ -206,8 +206,8 @@
             _defaultHeight = null;
 
         function toggleSilder(){
-            shuffle([].slice.call(_boxs)).forEach(function(e, i) {
-                setTimeout(function(){
+            shuffle([].slice.call(_boxs)).forEach((e, i) => {
+                setTimeout(() => {
 
                     _num++;
                   
@@ -232,13 +232,13 @@
         }
 
         function resizeItem(){
-            _boxs.forEach(function(e, i){
+            _boxs.forEach((e, i) => {
                 e.style.height = e.clientWidth + 'px';
             })
         }
 
         function resetAllStatus() {
-            _boxs.forEach(function(e, i){
+            _boxs.forEach((e, i) => {
                 if (!e.classList.contains('addcover')) {
                     e.classList.add('addcover');
                 }
@@ -256,7 +256,7 @@
 
             r.style.width = w + "px";
             r.style.height = h + "px";
-            
+
             r.classList.remove('addcover');
         }
 
@@ -264,10 +264,10 @@
             return s * 200 * 0.8;
         }
 
-        d.querySelector('.start').addEventListener('click', function(){
+        d.querySelector('.start').addEventListener('click', () => {
             _stop = false;
 
-            _boxs.forEach(function(e, i){
+            _boxs.forEach((e, i) => {
                 e.style.position = '';
                 e.style.zIndex = '';
                 e.style.width = _defaultWidth + "px";
@@ -277,12 +277,12 @@
             toggleSilder();
         });
 
-        d.querySelector('.cancel').addEventListener('click', function(){
+        d.querySelector('.cancel').addEventListener('click', () => {
             _stop = true;
         });
 
-        w.addEventListener('resize', function(event){
-            _boxs.forEach(function(e, i){
+        w.addEventListener('resize', (event) => {
+            _boxs.forEach((e, i) => {
                 e.style.height = e.clientWidth + 'px';
                 _defaultWidth = e.clientWidth;
                 _defaultHeight = e.clientHeight;
