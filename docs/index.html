@@ -47,7 +47,8 @@
 
             .boxs {
               position: relative;
-              flex: 0 0 33.33%;
+              /*flex: 0 0 33.33%;*/
+              width: 33.33%;
               height: auto;
               -webkit-background-size: cover;
               background-size: cover;
@@ -232,7 +233,6 @@
                     } else {
 
                         resetAllStatus();
-                        e.classList.remove('big');
                         e.classList.remove('addcover');
 
                     }
@@ -244,13 +244,19 @@
         function resizeItem(){
             _boxs.forEach((e, i) => {
                 e.style.height = e.clientWidth + 'px';
-            })
+                _defaultWidth = e.clientWidth;
+                _defaultHeight = e.clientHeight;
+            });
         }
 
         function resetAllStatus() {
             _boxs.forEach((e, i) => {
                 if (!e.classList.contains('addcover')) {
                     e.classList.add('addcover');
+                }
+
+                if (e.classList.contains('big')) {
+                    e.classList.remove('big');
                 }
             });
         }
@@ -272,19 +278,17 @@
 
         d.querySelector('.start').addEventListener('click', () => {
 
-            // if (_touch === true) {
+            if (_touch === true) {
                 _stop = false;
-                // _touch = false;
+                _touch = false;
 
                 _boxs.forEach((e, i) => {
-                    e.classList.remove('big');
-
                     e.style.width = _defaultWidth + "px";
                     e.style.height = _defaultHeight+ "px";
-                })
+                });
 
                 toggleSilder();
-            // }
+            }
         });
 
         d.querySelector('.cancel').addEventListener('click', () => {
@@ -292,13 +296,7 @@
             _touch = true;
         });
 
-        w.addEventListener('resize', (event) => {
-            _boxs.forEach((e, i) => {
-                e.style.height = e.clientWidth + 'px';
-                _defaultWidth = e.clientWidth;
-                _defaultHeight = e.clientHeight;
-            })
-        });
+        w.addEventListener('resize', (event) => resizeItem);
         
         resizeItem();
 
