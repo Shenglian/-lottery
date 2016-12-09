@@ -53,6 +53,13 @@
               background-repeat: no-repeat;
             }
 
+            .boxs.big {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 11111;
+            }
+
             .boxs.addcover:before {
               position: absolute;
               content: '';
@@ -250,14 +257,10 @@
             let w = r.parentNode.clientWidth;
             let h = r.parentNode.clientWidth;
 
-            r.style.position = 'absolute';
-            r.style.top = 0;
-            r.style.left = 0;
-            r.style.zIndex = 11111;
-
             r.style.width = w + "px";
             r.style.height = h + "px";
 
+            r.classList.add('big');
             r.classList.remove('addcover');
         }
 
@@ -272,10 +275,8 @@
                 _touch = false;
 
                 _boxs.forEach((e, i) => {
-                    e.style.position = '';
-                    e.style.top = null;
-                    e.style.left = null;
-                    e.style.zIndex = '';
+                    e.classList.remove('big');
+                    
                     e.style.width = _defaultWidth + "px";
                     e.style.height = _defaultHeight+ "px";
                 })
