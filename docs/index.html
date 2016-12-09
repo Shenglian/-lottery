@@ -202,6 +202,7 @@
         let _boxs = d.querySelectorAll('.boxs'),
             _num = 0,
             _stop = false,
+            _touch = true,
             _defaultWidth = null,
             _defaultHeight = null;
 
@@ -265,20 +266,25 @@
         }
 
         d.querySelector('.start').addEventListener('click', () => {
-            _stop = false;
 
-            _boxs.forEach((e, i) => {
-                e.style.position = '';
-                e.style.zIndex = '';
-                e.style.width = _defaultWidth + "px";
-                e.style.height = _defaultHeight+ "px";
-            })
+            if (_touch === true) {
+                _stop = false;
+                _touch = false;
 
-            toggleSilder();
+                _boxs.forEach((e, i) => {
+                    e.style.position = '';
+                    e.style.zIndex = '';
+                    e.style.width = _defaultWidth + "px";
+                    e.style.height = _defaultHeight+ "px";
+                })
+
+                toggleSilder();
+            }
         });
 
         d.querySelector('.cancel').addEventListener('click', () => {
             _stop = true;
+            _touch = true;
         });
 
         w.addEventListener('resize', (event) => {
