@@ -197,7 +197,7 @@
         return arr;
     };
 
-    ((w, d) => {
+    (function(w, d){
 
         let _boxs = d.querySelectorAll('.boxs'),
             _num = 0,
@@ -206,8 +206,8 @@
             _defaultHeight = null;
 
         function toggleSilder(){
-            shuffle([].slice.call(_boxs)).forEach((e, i) => {
-                setTimeout(() => {
+            shuffle([].slice.call(_boxs)).forEach(function(e, i) {
+                setTimeout(function(){
 
                     _num++;
                   
@@ -232,13 +232,13 @@
         }
 
         function resizeItem(){
-            _boxs.forEach((e, i) => {
+            _boxs.forEach(function(e, i){
                 e.style.height = e.clientWidth + 'px';
             })
         }
 
         function resetAllStatus() {
-            _boxs.forEach((e, i) => {
+            _boxs.forEach(function(e, i){
                 if (!e.classList.contains('addcover')) {
                     e.classList.add('addcover');
                 }
@@ -260,10 +260,10 @@
             return s * 200 * 0.8;
         }
 
-        d.querySelector('.start').addEventListener('click', () => {
+        d.querySelector('.start').addEventListener('click', function(){
             _stop = false;
 
-            _boxs.forEach((e, i) => {
+            _boxs.forEach(function(e, i){
                 e.style.position = '';
                 e.style.zIndex = '';
                 e.style.width = _defaultWidth + "px";
@@ -273,12 +273,12 @@
             toggleSilder();
         });
 
-        d.querySelector('.cancel').addEventListener('click', () => {
+        d.querySelector('.cancel').addEventListener('click', function(){
             _stop = true;
         });
 
-        w.addEventListener('resize', (event) => {
-            _boxs.forEach((e, i) => {
+        w.addEventListener('resize', function(event){
+            _boxs.forEach(function(e, i){
                 e.style.height = e.clientWidth + 'px';
                 _defaultWidth = e.clientWidth;
                 _defaultHeight = e.clientHeight;
