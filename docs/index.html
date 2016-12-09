@@ -250,9 +250,13 @@
             let h = r.parentNode.clientWidth;
 
             r.style.position = 'absolute';
+            r.style.top = 0;
+            r.style.left = 0;
             r.style.zIndex = 11111;
+
             r.style.width = w + "px";
             r.style.height = h + "px";
+            
             r.classList.remove('addcover');
         }
 
