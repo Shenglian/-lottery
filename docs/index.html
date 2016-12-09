@@ -147,7 +147,8 @@
           var c = 400,
               d = 50;
 
-          return c - d  * s * 0.8;
+          // return c - d  * s * 0.8;
+          return s * 150 * 0.8;
         }
 
         function shuffle_b(arr) {
@@ -163,24 +164,34 @@
             return arr;
         };
 
+        function resetAllStatus() {
+          _boxs.forEach(function(e, i){
+            if (!e.classList.contains('addcover')) {
+              e.classList.add('addcover'); 
+            }
+          });  
+        }
+        
+
         function display(){
           if (_stop === true) return;
           shuffle_b([].slice.call(_boxs)).forEach(function(e, i){
+
             setTimeout(function(){
 
-              if (e.classList.contains('addcover')) {
-                e.classList.remove('addcover');  
-              } else {
-                e.classList.add('addcover');  
-              }
-              
               _num++;
               
               if (_num > 8) {
-                  _num = 0;
+                _num = 0;
 
-                  display();
-              }  
+                display();
+
+              } else {
+
+                resetAllStatus();
+                e.classList.remove('addcover');  
+                
+              }
               
             }, getTime(i) );
             
