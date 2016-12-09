@@ -50,6 +50,7 @@
               height: auto;
               -webkit-background-size: cover;
               background-size: cover;
+              background-repeat: no-repeat;
             }
 
             .boxs.addcover:before {
@@ -140,114 +141,156 @@
       <div class="cancel">Cancel</div>
     </body>
     <script>
-        let _boxs = document.querySelectorAll('.boxs');
-        let _num = 0;
-        let _stop = false;
-        let _defaultWidth = null;
-        let _defaultHeight = null;
 
-        function getTime(s){
-          return s * 200 * 0.8;
+    // class Lottery {
+    //     constructor(option){
+    //         this._boxs = option['boxs'];
+
+    //         this._stop = false;
+    //         this._num = 0;
+    //         this._defaultWidth = null;
+    //         this._defaultHeight = null;
+    //     }
+
+    //     getBoxs(){
+    //         return Lottery.getElements(this._boxs);
+    //     }
+
+    // }
+
+    // Lottery.getElements = function(els){
+    //     let _elements,
+    //         _el,
+    //         _len,
+    //         _j,
+    //         _ref;
+
+    //     _elements = [];
+
+    //     _ref = document.querySelectorAll(els);
+
+    //     for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+    //         _el = _ref[_j];
+    //         _elements.push(_el);
+    //     }
+
+    //     return _elements;
+    // }
+
+    // const boxLottery = new Lottery({
+    //     'boxs': '.boxs',
+    // });
+
+    // console.log('boxLottery ==> ', boxLottery);
+    // console.log('boxLottery_getBoxs ==> ', boxLottery.getBoxs());
+
+    function shuffle(arr) {
+        let i,
+            j,
+            temp;
+        for (i = arr.length - 1; i > 0; i--) {
+            j = Math.floor(Math.random() * (i + 1));
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
         }
+        return arr;
+    };
 
-        function shuffle_b(arr) {
-            let i,
-                j,
-                temp;
-            for (i = arr.length - 1; i > 0; i--) {
-                j = Math.floor(Math.random() * (i + 1));
-                temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
-            return arr;
-        };
+    ((w, d) => {
 
-        function resetAllStatus() {
-          _boxs.forEach((e, i) => {
-            if (!e.classList.contains('addcover')) {
-              e.classList.add('addcover'); 
-            }
-          });  
-        }
-        
-        function changeBig(r){
-          let w = r.parentNode.clientWidth;
-          let h = r.parentNode.clientWidth;
+        let _boxs = d.querySelectorAll('.boxs'),
+            _num = 0,
+            _stop = false,
+            _defaultWidth = null,
+            _defaultHeight = null;
 
-          r.style.position = 'absolute';
-          r.style.zIndex = 11111;
-          r.style.width = w + "px";
-          r.style.height = h + "px";
-          r.classList.remove('addcover');
+        function toggleSilder(){
+            shuffle([].slice.call(_boxs)).forEach((e, i) => {
+                setTimeout(() => {
 
-        }
+                    _num++;
+                  
+                    if (_num > 8) {
+                        _num = 0;
+                        if (_stop === true) {
+                            changeBig(e);
+                            return;
+                        }
 
-        function display(){
-          
-          shuffle_b([].slice.call(_boxs)).forEach((e, i) => {
+                        toggleSilder();
 
-            setTimeout(() => {
+                    } else {
 
-              _num++;
+                        resetAllStatus();
+                        e.classList.remove('addcover');
+
+                    }
               
-              if (_num > 8) {
-                _num = 0;
-                
-                if (_stop === true) {
-                  changeBig(e);
-                  return;
-                }
-
-                display();
-
-              } else {
-
-                resetAllStatus();
-                e.classList.remove('addcover');  
-                
-              }
-              
-            }, getTime(i) );
-            
-          })
+                }, getTime(i) );
+            })
         }
 
         function resizeItem(){
-          _boxs.forEach((e, i) => {
-            e.style.height = e.clientWidth + 'px';
-          })
+            _boxs.forEach((e, i) => {
+                e.style.height = e.clientWidth + 'px';
+            })
         }
 
-        document.querySelector('.start').addEventListener('click', () => {
-          _stop = false;
+        function resetAllStatus() {
+            _boxs.forEach((e, i) => {
+                if (!e.classList.contains('addcover')) {
+                    e.classList.add('addcover');
+                }
+            });
+        }
+        
+        function changeBig(r){
+            let w = r.parentNode.clientWidth;
+            let h = r.parentNode.clientWidth;
 
-          _boxs.forEach((e, i) => {
-            e.removeAttribute('style');
+            r.style.position = 'absolute';
+            r.style.zIndex = 11111;
+            r.style.width = w + "px";
+            r.style.height = h + "px";
+            r.classList.remove('addcover');
+        }
 
-            e.style.position = '';
-            e.style.zIndex = '';
-            e.style.width = _defaultWidth + "px";
-            e.style.height = _defaultHeight+ "px";
+        function getTime(s){
+            return s * 200 * 0.8;
+        }
 
+        d.querySelector('.start').addEventListener('click', () => {
+            _stop = false;
 
-          })
+            _boxs.forEach((e, i) => {
+                e.removeAttribute('style');
 
-          display();
+                e.style.position = '';
+                e.style.zIndex = '';
+                e.style.width = _defaultWidth + "px";
+                e.style.height = _defaultHeight+ "px";
+            })
+
+            toggleSilder();
         });
 
-        document.querySelector('.cancel').addEventListener('click', () => {
-          _stop = true;
+        d.querySelector('.cancel').addEventListener('click', () => {
+            _stop = true;
         });
 
-        window.addEventListener('resize', (event) => {
-          _boxs.forEach((e, i) => {
-            e.style.height = e.clientWidth + 'px';
-            _defaultWidth = e.clientWidth;
-            _defaultHeight = e.clientHeight;
-          })
+        w.addEventListener('resize', (event) => {
+            _boxs.forEach((e, i) => {
+                e.style.height = e.clientWidth + 'px';
+                _defaultWidth = e.clientWidth;
+                _defaultHeight = e.clientHeight;
+            })
         });
         
         resizeItem();
+
+    })(window, document);
+
+
     </script>
 </html>
