@@ -140,22 +140,18 @@
       <div class="cancel">Cancel</div>
     </body>
     <script>
-        var _boxs = document.querySelectorAll('.boxs');
-        var _num = 0;
-        var _stop = false;
-        var _defaultWidth = null;
-        var _defaultHeight = null;
+        let _boxs = document.querySelectorAll('.boxs');
+        let _num = 0;
+        let _stop = false;
+        let _defaultWidth = null;
+        let _defaultHeight = null;
 
         function getTime(s){
-          var c = 400,
-              d = 50;
-
-          // return c - d  * s * 0.8;
-          return s * 150 * 0.8;
+          return s * 200 * 0.8;
         }
 
         function shuffle_b(arr) {
-            var i,
+            let i,
                 j,
                 temp;
             for (i = arr.length - 1; i > 0; i--) {
@@ -168,7 +164,7 @@
         };
 
         function resetAllStatus() {
-          _boxs.forEach(function(e, i){
+          _boxs.forEach((e, i) => {
             if (!e.classList.contains('addcover')) {
               e.classList.add('addcover'); 
             }
@@ -180,24 +176,23 @@
           let h = r.parentNode.clientWidth;
 
           r.style.position = 'absolute';
-          r.style.zIndex = 111111;
+          r.style.zIndex = 11111;
           r.style.width = w + "px";
-          r.style.height = h+ "px";
+          r.style.height = h + "px";
+          r.classList.remove('addcover');
+
         }
 
         function display(){
           
-          shuffle_b([].slice.call(_boxs)).forEach(function(e, i){
+          shuffle_b([].slice.call(_boxs)).forEach((e, i) => {
 
-            setTimeout(function(){
+            setTimeout(() => {
 
               _num++;
               
               if (_num > 8) {
                 _num = 0;
-                
-                console.log('ii ======> ', i);
-                console.log('iie ======> ', e);
                 
                 if (_stop === true) {
                   changeBig(e);
@@ -208,7 +203,6 @@
 
               } else {
 
-                console.log('i ======> ', i);
                 resetAllStatus();
                 e.classList.remove('addcover');  
                 
@@ -220,32 +214,34 @@
         }
 
         function resizeItem(){
-          _boxs.forEach(function(e, i){
+          _boxs.forEach((e, i) => {
             e.style.height = e.clientWidth + 'px';
           })
         }
 
-        document.querySelector('.start').addEventListener('click', function(){
+        document.querySelector('.start').addEventListener('click', () => {
           _stop = false;
 
-          _boxs.forEach(function(e, i){
+          _boxs.forEach((e, i) => {
             e.removeAttribute('style');
 
             e.style.position = '';
             e.style.zIndex = '';
             e.style.width = _defaultWidth + "px";
             e.style.height = _defaultHeight+ "px";
+
+
           })
 
           display();
         });
 
-        document.querySelector('.cancel').addEventListener('click', function(){
+        document.querySelector('.cancel').addEventListener('click', () => {
           _stop = true;
         });
 
-        window.addEventListener('resize', function(event){
-          _boxs.forEach(function(e, i){
+        window.addEventListener('resize', (event) => {
+          _boxs.forEach((e, i) => {
             e.style.height = e.clientWidth + 'px';
             _defaultWidth = e.clientWidth;
             _defaultHeight = e.clientHeight;
