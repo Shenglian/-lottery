@@ -110,7 +110,7 @@
             }
 
             .start, 
-            .cancel {
+            .stop {
               margin: auto;
               margin-top: 20px;
               width: 150px;
@@ -127,7 +127,7 @@
               color: #ffffff;
             }
             
-            .cancel {
+            .stop {
               border: 1px solid #333333;
               color: #333333;
             }
@@ -147,51 +147,9 @@
         <div class="boxs addcover i"></div>
       </div>
       <div class="start">Start</div>
-      <div class="cancel">Cancel</div>
+      <div class="stop">Stop</div>
     </body>
-    <script>
-
-    // class Lottery {
-    //     constructor(option){
-    //         this._boxs = option['boxs'];
-
-    //         this._stop = false;
-    //         this._num = 0;
-    //         this._defaultWidth = null;
-    //         this._defaultHeight = null;
-    //     }
-
-    //     getBoxs(){
-    //         return Lottery.getElements(this._boxs);
-    //     }
-
-    // }
-
-    // Lottery.getElements = function(els){
-    //     let _elements,
-    //         _el,
-    //         _len,
-    //         _j,
-    //         _ref;
-
-    //     _elements = [];
-
-    //     _ref = document.querySelectorAll(els);
-
-    //     for (_j = 0, _len = _ref.length; _j < _len; _j++) {
-    //         _el = _ref[_j];
-    //         _elements.push(_el);
-    //     }
-
-    //     return _elements;
-    // }
-
-    // const boxLottery = new Lottery({
-    //     'boxs': '.boxs',
-    // });
-
-    // console.log('boxLottery ==> ', boxLottery);
-    // console.log('boxLottery_getBoxs ==> ', boxLottery.getBoxs());
+    <script type="text/javascript">
 
     function shuffle(arr) {
         let i,
@@ -210,21 +168,52 @@
 
         let _boxs = d.querySelectorAll('.boxs'),
             _num = 0,
+            _num2 = 0,
             _stop = false,
             _touch = true,
             _defaultWidth = null,
             _defaultHeight = null;
 
-        function toggleSilder(){
+        function ajaxResult(index){
+            let _ajaxIndex = index;
+            let _ajaxItem = [].slice.call(_boxs)[index];
+            let _currentboxs = shuffle([].slice.call(_boxs)).concat(_ajaxItem)
+
+            _currentboxs.forEach((e, i) => {
+                setTimeout(() => {
+
+                    _num2++;
+                    
+                    if (_num2 > 9) {
+
+                        _num2 = 0;
+                        changeBig(e);
+                        return;
+
+                    } else {
+
+                        resetAllStatus();
+                        e.classList.remove('addcover');
+
+                    }
+                
+                }, getTime(i) );
+            })
+
+        }
+
+        function toggleSilder() {
             shuffle([].slice.call(_boxs)).forEach((e, i) => {
                 setTimeout(() => {
 
                     _num++;
                   
                     if (_num > 8) {
+
                         _num = 0;
+
                         if (_stop === true) {
-                            changeBig(e);
+                            ajaxResult(1);
                             return;
                         }
 
@@ -291,7 +280,7 @@
             }
         });
 
-        d.querySelector('.cancel').addEventListener('click', () => {
+        d.querySelector('.stop').addEventListener('click', () => {
             _stop = true;
             _touch = true;
         });
