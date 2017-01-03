@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>JS Lottery</title>
+        <style>
+            html,
+            body {
+              margin: 0;
+              padding: 0;
+            }
+
+            body {
+              display: -webkit-flex;
+              display: -moz-flex;
+              display: -ms-flex;
+              display: -o-flex;
+              display: flex;
+
+              width: 100%;
+
+              flex-direction: column;
+
+              font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+              letter-spacing: 0;
+              font-weight: 400;
+              font-style: normal;
+              text-rendering: optimizeLegibility;
+              -webkit-font-smoothing: antialiased;
+            }
+            
+            .group {
+              position: relative;
+              width: 150px;
+              height: 150px;
+            }
+
+            div {
+              position: absolute;
+              width: 50px;
+              height: 50px;
+              line-height: 50px;
+              text-align: center;
+              background-color: #000;
+              color: #fff;
+            }
+
+            .one {
+              top: 0;
+              left: 0;
+            }
+
+            .two {
+              margin-left: 50px;
+              top: 0;
+              left: 0;
+            }
+
+            .three {
+              top: 0;
+              right: 0;
+            }
+
+            .four {
+              margin-top: 50px;
+              right: 0;
+            }
+
+            .five {
+              right: 0;
+              bottom: 0;
+            }
+
+            .six {
+              margin-left: 50px;
+              bottom: 0;
+            }
+
+            .seven {
+              left: 0;
+              bottom: 0;
+            }
+
+            .eight {
+              margin-top: 50px;
+              left: 0;
+            }
+
+        </style>
+    </head>
+    <body>
+      <div class="group">
+        <div class="one">1</div>
+        <div class="two">2</div>
+        <div class="three">3</div>
+        <div class="four">4</div>
+        <div class="five">5</div>
+        <div class="six">6</div>
+        <div class="seven">7</div>
+        <div class="eight">8</div>
+     <!--  <div class="go">Go</div> -->
+     </div>
+    </body>
+    <script type="text/javascript">
+
+    var _g = document.querySelectorAll('.group div');
+    var _gg = [].slice.call(_g);
+    var _num = 0;
+
+    function doit(){
+      _gg.forEach(function(e, i){
+         setTimeout(function(){
+       
+           _num++;
+
+         if (_num > 7) {
+           
+           _num = 0;
+         
+           doit();
+
+         }
+                    
+         eStyle(e);
+       
+       }, 100 * i)  
+      });
+    }
+
+    function eStyle(e){
+      if (e.style.color === 'rgb(255, 0, 0)') {
+        e.style.color = '#F9F9F9';
+      } else {
+        e.style.color = '#FF0000';
+      }
+    }
+
+    doit();
+
+
+    </script>
+</html>
