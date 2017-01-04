@@ -304,14 +304,14 @@
         var _lottery = new Lottery(
             document.querySelector('.num'),
             {
-                lastMaxNum: document.querySelector('input[name="circle"]').value === 0 ? document.querySelector('input[name="circle"]').value : 2
+                lastMaxNum: document.querySelector('input[name="circle"]').value === 0 ? 2 : document.querySelector('input[name="circle"]').value
             }
         );
 
         var _stopEle = document.querySelector('.go');
 
         _stopEle.addEventListener('click', function(){
-            var _value = document.querySelector('input[name="result"]').value === 5 ? document.querySelector('input[name="result"]').value : 5
+            var _value = document.querySelector('input[name="result"]').value === 5 ? 5 : document.querySelector('input[name="result"]').value
             _lottery.ajaxComing(_value);
         })
 
