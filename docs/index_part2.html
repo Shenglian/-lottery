@@ -127,6 +127,15 @@
               transform: translate(-50%, -50%);
             }
 
+            input {
+                margin: 20px;
+                padding: 5px;
+                height: 44px;
+                line-height: 44px;
+                color: #333;
+                font-size: 14px;
+            }
+
         </style>
     </head>
     <body>
@@ -147,6 +156,9 @@
             </div>
             <div class="go">Go</div>
         </div>
+
+        <input type="number" name="circle" placeholder="設定 ajax 回來多轉的圈數" value=2>
+        <input type="number" name="result" placeholder="設定 ajax 回來的結果" value=5>
     </body>
 
     <script type="text/javascript">
@@ -285,18 +297,24 @@
             }
         }
 
+
+
+
         var _lottery = new Lottery(
             document.querySelector('.num'),
             {
-                lastMaxNum: 1
+                lastMaxNum: document.querySelector('input[name="circle"]').value === 0 ? document.querySelector('input[name="circle"]').value : 2
             }
         );
 
         var _stopEle = document.querySelector('.go');
 
         _stopEle.addEventListener('click', function(){
-            _lottery.ajaxComing(3);
+            var _value = document.querySelector('input[name="result"]').value === 5 ? document.querySelector('input[name="result"]').value : 5
+            _lottery.ajaxComing(_value);
         })
+
+
 
         // var _parent = document.querySelector('.num'),
         //     _g = _parent.querySelectorAll('div'),
