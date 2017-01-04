@@ -32,13 +32,13 @@
             
             .group {
               position: relative;
-              width: 150px;
-              height: 150px;
+              width: 100%;
             }
 
-            div {
+            .num div,
+            .go {
               position: absolute;
-              width: 50px;
+              width: 25%;
               height: 50px;
               line-height: 50px;
               text-align: center;
@@ -46,97 +46,224 @@
               color: #fff;
             }
 
-            .one {
+            .num div {
+              -webkit-background-size: cover;
+              background-size: cover;
+            }
+
+            .num div.addcover:before {
+              position: absolute;
+              content: '';
               top: 0;
               left: 0;
+              right: 0;
+              bottom: 0;
+              background-color: rgba(0, 0, 0, .5);
+            }
+
+            .one {
+                top: 0;
+                left: 0;
             }
 
             .two {
-              margin-left: 50px;
-              top: 0;
-              left: 0;
+                top: 0;
+                left: 25%;
             }
 
             .three {
-              top: 0;
-              right: 0;
+                top: 0;
+                left: 50%;
             }
 
             .four {
-              margin-top: 50px;
-              right: 0;
+                top: 0;
+                right: 0;
             }
 
             .five {
-              right: 0;
-              bottom: 0;
+                top: 25%;
+                right: 0;
             }
 
             .six {
-              margin-left: 50px;
-              bottom: 0;
+                top: 50%;
+                right: 0;
             }
 
             .seven {
-              left: 0;
-              bottom: 0;
+                right: 0;
+                bottom: 0;
             }
 
             .eight {
-              margin-top: 50px;
-              left: 0;
+                right: 25%;
+                bottom: 0;
+            }
+
+            .nine {
+                right: 50%;
+                bottom: 0;
+            }
+
+            .ten {
+                left: 0;
+                bottom: 0;
+            }
+
+            .eleven {
+                left: 0;
+                bottom: 25%;
+            }
+
+            .twelve {
+                left: 0;
+                bottom: 50%;
+            }
+
+            .go {
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
             }
 
         </style>
     </head>
     <body>
-      <div class="group">
-        <div class="one">1</div>
-        <div class="two">2</div>
-        <div class="three">3</div>
-        <div class="four">4</div>
-        <div class="five">5</div>
-        <div class="six">6</div>
-        <div class="seven">7</div>
-        <div class="eight">8</div>
-     <!--  <div class="go">Go</div> -->
-     </div>
+        <div class="group">
+            <div class="num">
+                <div class="addcover one" style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
+                <div class="addcover two" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
+                <div class="addcover three" style="background-image: url('http://www.gratisography.com/pictures/338_1.jpg')"></div>
+                <div class="addcover four" style="background-image: url('http://www.gratisography.com/pictures/342_1.jpg')"></div>
+                <div class="addcover five" style="background-image: url('http://www.gratisography.com/pictures/347_1.jpg')"></div>
+                <div class="addcover six" style="background-image: url('http://www.gratisography.com/pictures/350_1.jpg')"></div>
+                <div class="addcover seven" style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
+                <div class="addcover eight" style="background-image: url('http://www.gratisography.com/pictures/340_1.jpg')"></div>
+                <div class="addcover nine" style="background-image: url('http://www.gratisography.com/pictures/342_1.jpg')"></div>
+                <div class="addcover ten" style="background-image: url('http://www.gratisography.com/pictures/338_1.jpg')"></div>
+                <div class="addcover eleven" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
+                <div class="addcover twelve" style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
+            </div>
+            <div class="go">Go</div>
+        </div>
     </body>
+
     <script type="text/javascript">
 
-    var _g = document.querySelectorAll('.group div');
-    var _gg = [].slice.call(_g);
-    var _num = 0;
+        var _parent = document.querySelector('.num'),
+            _g = _parent.querySelectorAll('div'),
+            _gg = [].slice.call(_g);
 
-    function doit(){
-      _gg.forEach(function(e, i){
-         setTimeout(function(){
-       
-           _num++;
+        var _num = 0,
+            _lastNum = 0,
+            _lastMaxNum = 2;
 
-         if (_num > 7) {
-           
-           _num = 0;
-         
-           doit();
+        var _defaultWidth = 0,
+            _defaultHeight = 0;
 
-         }
-                    
-         eStyle(e);
-       
-       }, 100 * i)  
-      });
-    }
+        var _stop = false,
+            _resultNum = null;
 
-    function eStyle(e){
-      if (e.style.color === 'rgb(255, 0, 0)') {
-        e.style.color = '#F9F9F9';
-      } else {
-        e.style.color = '#FF0000';
-      }
-    }
+        function ajaxResult(_resultNum){
 
-    doit();
+            // index 從 1 開始
+            var _index = _resultNum + 1;
+
+            var _resultArr = _gg.slice(0, _index);
+            
+            _resultArr.forEach(function(e, i){
+                setTimeout(function(){
+            
+                    resetAllStatus();
+                    e.classList.remove('addcover');
+
+                }, getTime(i + 1));
+
+            });
+        }
+
+        function getTime(t) {
+            var tt = Math.round(t * 100 / 24 * 100);
+            console.log('tt', tt)
+            return tt;
+        }
+
+        function doit(){
+            _gg.forEach(function(e, i){
+                setTimeout(function(){
+
+                    resetAllStatus();
+                    e.classList.remove('addcover');
+                    _num++;
+
+                    if (_num > 11) {
+                        _num = 0;
+
+                        if (_stop === true) {
+                            _lastNum++;
+                        }
+
+                        if (_lastNum > _lastMaxNum) {
+                            ajaxResult(_resultNum)
+                        } else {
+                            console.log('doit')
+                            doit();
+                        }
+                    }
+
+                }, 100 * (i + 1));
+
+            });
+
+        }
+
+        function resetAllStatus() {
+            _gg.forEach((e, i) => {
+                if (!e.classList.contains('addcover')) {
+                    e.classList.add('addcover');
+                }
+
+                if (e.classList.contains('big')) {
+                    e.classList.remove('big');
+                }
+            });
+        }
+
+        function setItemHeight(){
+
+            // num
+            _defaultWidth = Math.round(_parent.clientWidth / 4);
+            _defaultHeight = _defaultWidth;
+
+            // child
+            _gg.forEach((e, i) => {
+                e.style.width = _defaultWidth + 'px';
+                e.style.height = _defaultHeight + 'px';
+            });
+
+            // parent
+            _parent.style.height = _defaultHeight * 4 + 'px';
+        }
+
+        function bindEvent(){
+            var _stopEle = document.querySelector('.go');
+
+            _stopEle.addEventListener('click', function(){
+                _stop = true;
+                _resultNum = 5;
+            })
+        }
+
+        window.addEventListener('resize', setItemHeight, false);
+
+        document.addEventListener('DOMContentLoaded', init.bind(this), false);
+
+        function init(){
+            setItemHeight();
+            bindEvent();
+            doit();
+        }
 
 
     </script>
