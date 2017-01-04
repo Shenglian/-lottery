@@ -157,7 +157,7 @@
 
         var _num = 0,
             _lastNum = 0,
-            _lastMaxNum = 1;
+            _lastMaxNum = 2;
 
         var _defaultWidth = 0,
             _defaultHeight = 0;
@@ -206,13 +206,15 @@
 
                         if (_lastNum > _lastMaxNum) {
                             ajaxResult(_resultNum)
+                            return;
                         } else {
                             console.log('doit')
                             doit();
                         }
                     }
-
-                }, 100 * (i + 1));
+                    console.log('_lastNum', _lastNum)
+                    console.log('time', (100 + (175 * _lastNum)) * (i + 1))
+                }, (100 + (175 * _lastNum)) * (i + 1));
 
             });
 
