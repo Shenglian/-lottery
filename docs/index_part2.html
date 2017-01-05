@@ -150,7 +150,7 @@
     </head>
     <body>
         <div class="group">
-            <div class="cover"></div>
+            <!-- <div class="cover"></div> -->
             <div class="num">
                 <div class="addcover one" style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
                 <div class="addcover two" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
@@ -212,7 +212,7 @@
             _this.cover = document.querySelector('.cover'); // object
             _this.classnames = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
 
-            _this.fps = 20;
+            _this.fps = 15;
 
             _this._num = 0,
             _this._lastNum = 0,
@@ -236,7 +236,6 @@
 
                 _this.setItemHeight();
                 _this.bindEvent();
-                // _this.doit();
                 _this.doAnimate();
             },
 
@@ -282,14 +281,18 @@
                 var _this = this;
 
                 (function animate() {
+
+                    _this.resetAllStatus();
+                    _this._gg[_this._num].classList.remove('addcover');
+
                     _this._num++;
 
                     if (_this._num > 11) {
                         _this._num = 0;
                     }
 
-                    _this.cover.className = 'cover';
-                    _this.cover.classList.add(_this.classnames[_this._num])
+                    // _this.cover.className = 'cover';
+                    // _this.cover.classList.add(_this.classnames[_this._num])
 
                     setTimeout(function() {
                         requestAnimationFrame(animate);
