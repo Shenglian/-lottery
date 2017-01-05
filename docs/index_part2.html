@@ -146,11 +146,21 @@
                 font-size: 14px;
             }
 
+            .reset_btn {
+                margin: 20px;
+                height: 44px;
+                line-height: 44px;
+                text-align: center;
+                background-color: #5D563A;
+                font-size: 14px;
+                color: #fff;
+            }
+
         </style>
     </head>
     <body>
         <div class="group">
-            <!-- <div class="cover"></div> -->
+            
             <div class="num">
                 <div class="addcover one" style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
                 <div class="addcover two" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
@@ -165,11 +175,13 @@
                 <div class="addcover eleven" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
                 <div class="addcover twelve" style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
             </div>
-            <div class="go">Go</div>
+            <div class="go"> RESULT </div>
         </div>
 
         <input type="number" name="circle" placeholder="設定 ajax 回來多轉的圈數" value=2>
         <input type="number" name="result" placeholder="設定 ajax 回來的結果" value=5>
+
+        <div class="reset_btn"> 重新開始 </div>
     </body>
 
     <script type="text/javascript">
@@ -203,7 +215,7 @@
         }
 
         function Lottery(element, options){
-            console.log('options.lastMaxNum', options.lastMaxNum)
+            
             var _this = this;
 
             _this._parent = element,
@@ -226,6 +238,8 @@
             _this._stop = false,
             _this._resultNum = null;
 
+            _this._isStarting = false;
+
             _this.init();
         }
 
@@ -239,6 +253,7 @@
                 _this.setItemHeight();
                 _this.bindEvent();
                 _this.doAnimate();
+
             },
 
             resetAllStatus: function() {
@@ -247,10 +262,6 @@
                 _this._gg.forEach((e, i) => {
                     if (!e.classList.contains('addcover')) {
                         e.classList.add('addcover');
-                    }
-
-                    if (e.classList.contains('big')) {
-                        e.classList.remove('big');
                     }
                 });
             },
@@ -279,7 +290,7 @@
                 window.addEventListener('resize', _setItemHeight, false);
             },
 
-            doAnimateTwo: function (_resultNum){
+            doAnimateAjax: function (_resultNum){
                 var _this = this;
 
                 // index 從 1 開始
@@ -292,7 +303,11 @@
 
                     _this._numTwo++;
 
-                    if (_this._numTwo > _index - 1) return;
+                    if (_this._numTwo > _index - 1) {
+                        
+                        _this.resetSetting();
+                        return;
+                    }
 
                     setTimeout(function() {
                         requestAnimationFrame(animateTwo);
@@ -302,7 +317,14 @@
             },
 
             doAnimate: function(){
+
                 var _this = this;
+
+                if (_this._isStarting === true) {
+                    return;   
+                } else {
+                    _this._isStarting = true;
+                }
 
                 (function animate() {
 
@@ -315,13 +337,11 @@
                         _this._num = 0;
 
                         if (_this._stop === true) {
-                            console.log('_this._lastNum', _this._lastNum)
                             _this._lastNum++;
                         }
 
                         if (_this._lastNum > _this._lastMaxNum) {
-                            console.log('_this._lastMaxNum', _this._lastMaxNum)
-                            _this.doAnimateTwo(_this._resultNum)
+                            _this.doAnimateAjax(_this._resultNum)
                             return;
                         } else {
                             console.log('doit')
@@ -335,6 +355,14 @@
 
                 })()
 
+            },
+
+            resetSetting: function(){
+                _this._isStarting = false;
+                _this._lastNum = 0;
+                _this._resultNum = null;
+                _this._numTwo = 0;
+                _this._stop = false;
             },
 
             setResultItem: function(num){
@@ -367,123 +395,18 @@
             var _circle = document.querySelector('input[name="circle"]').value === 2 ? 2 : document.querySelector('input[name="circle"]').value
             var _result = document.querySelector('input[name="result"]').value === 5 ? 5 : document.querySelector('input[name="result"]').value
 
+            // ajax callback
             _lottery.setCircleNum(_circle);
             _lottery.setResultItem(_result);
             _lottery.stop();
-        })
 
+        });
 
+        var _resetEle = document.querySelector('.reset_btn');
 
-        // var _parent = document.querySelector('.num'),
-        //     _g = _parent.querySelectorAll('div'),
-        //     _gg = [].slice.call(_g);
-
-        // var _num = 0,
-        //     _lastNum = 0,
-        //     _lastMaxNum = 2;
-
-        // var _defaultWidth = 0,
-        //     _defaultHeight = 0;
-
-        // var _stop = false,
-        //     _resultNum = null;
-
-        // function ajaxResult(_resultNum){
-
-        //     // index 從 1 開始
-        //     var _index = _resultNum + 1;
-
-        //     var _resultArr = _gg.slice(0, _index);
-            
-        //     _resultArr.forEach(function(e, i){
-        //         setTimeout(function(){
-            
-        //             resetAllStatus();
-        //             e.classList.remove('addcover');
-
-        //         }, getTime(i + 1));
-
-        //     });
-        // }
-
-        
-        // function doit(){
-        //     _gg.forEach(function(e, i){
-        //         setTimeout(function(){
-
-        //             resetAllStatus();
-        //             e.classList.remove('addcover');
-        //             _num++;
-
-        //             if (_num > 11) {
-        //                 _num = 0;
-
-        //                 if (_stop === true) {
-        //                     _lastNum++;
-        //                 }
-
-        //                 if (_lastNum > _lastMaxNum) {
-        //                     ajaxResult(_resultNum)
-        //                     return;
-        //                 } else {
-        //                     console.log('doit')
-        //                     doit();
-        //                 }
-        //             }
-
-        //         }, (100 + (175 * _lastNum)) * (i + 1));
-
-        //     });
-
-        // }
-
-        // function resetAllStatus() {
-        //     _gg.forEach((e, i) => {
-        //         if (!e.classList.contains('addcover')) {
-        //             e.classList.add('addcover');
-        //         }
-
-        //         if (e.classList.contains('big')) {
-        //             e.classList.remove('big');
-        //         }
-        //     });
-        // }
-
-        // function setItemHeight(){
-
-        //     // num
-        //     _defaultWidth = Math.round(_parent.clientWidth / 4);
-        //     _defaultHeight = _defaultWidth;
-
-        //     // child
-        //     _gg.forEach((e, i) => {
-        //         e.style.width = _defaultWidth + 'px';
-        //         e.style.height = _defaultHeight + 'px';
-        //     });
-
-        //     // parent
-        //     _parent.style.height = _defaultHeight * 4 + 'px';
-        // }
-
-        // function bindEvent(){
-        //     var _stopEle = document.querySelector('.go');
-
-        //     _stopEle.addEventListener('click', function(){
-        //         _stop = true;
-        //         _resultNum = 5;
-        //     })
-        // }
-
-        // window.addEventListener('resize', setItemHeight, false);
-
-        // document.addEventListener('DOMContentLoaded', init.bind(this), false);
-
-        // function init(){
-            // setItemHeight();
-            // bindEvent();
-            // doit();
-        // }
-
+        _resetEle.addEventListener('click', function(){
+            _lottery.doAnimate();
+        });
 
     </script>
 </html>
