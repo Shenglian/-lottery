@@ -355,6 +355,8 @@
             },
 
             resetSetting: function(){
+                var _this = this;
+
                 _this._isStarting = false;
                 _this._lastNum = 0;
                 _this._resultNum = null;
@@ -367,14 +369,14 @@
                 _this._resultNum = num;
             },
 
-            stop: function(){
-                var _this = this;
-                _this._stop = true;
-            },
-
             setCircleNum: function(num){
                 var _this = this;
                 _this._lastMaxNum = num;
+            },
+
+            stop: function(){
+                var _this = this;
+                _this._stop = true;
             }
         }
 
