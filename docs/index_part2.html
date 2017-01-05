@@ -35,6 +35,15 @@
               width: 100%;
             }
 
+            .fooObject {
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                background-color: #f9f9f9;
+                box-shadow: 0 0 0 1px #ddd;
+                z-index: 10;
+            }
+
             .num div,
             .go {
               position: absolute;
@@ -141,6 +150,7 @@
     </head>
     <body>
         <div class="group">
+            <div class="fooObject"></div>
             <div class="num">
                 <div class="addcover one" style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
                 <div class="addcover two" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
@@ -158,8 +168,8 @@
             <div class="go">Go</div>
         </div>
 
-        <!-- <input type="number" name="circle" placeholder="設定 ajax 回來多轉的圈數" value=2> -->
-        <!-- <input type="number" name="result" placeholder="設定 ajax 回來的結果" value=5> -->
+        <input type="number" name="circle" placeholder="設定 ajax 回來多轉的圈數" value=2>
+        <input type="number" name="result" placeholder="設定 ajax 回來的結果" value=5>
     </body>
 
     <script type="text/javascript">
@@ -169,263 +179,300 @@
             return tt;
         }
 
-        // function Lottery(element, options){
-        //     var _this = this;
+        function Lottery(element, options){
+            var _this = this;
 
-        //     _this._parent = element,
-        //     _this._g = _this._parent.querySelectorAll('div'),
-        //     _this._gg = [].slice.call(_this._g);
+            _this._parent = element,
+            _this._g = _this._parent.querySelectorAll('div'),
+            _this._gg = [].slice.call(_this._g);
 
-        //     _this._num = 0,
-        //     _this._lastNum = 0,
-        //     _this._lastMaxNum = options.lastMaxNum || 2;
+            _this._num = 0,
+            _this._lastNum = 0,
+            _this._lastMaxNum = options.lastMaxNum || 2;
 
-        //     _this._defaultWidth = 0,
-        //     _this._defaultHeight = 0;
+            _this._defaultWidth = 0,
+            _this._defaultHeight = 0;
 
-        //     _this._stop = false,
-        //     _this._resultNum = null;
+            _this._stop = false,
+            _this._resultNum = null;
 
-        //     _this.init();
-        // }
-
-        // Lottery.prototype = {
-        //     constructor: Lottery,
-
-        //     init: function(){
-
-        //         var _this = this;
-
-        //         _this.setItemHeight();
-        //         _this.bindEvent();
-        //         _this.doit();
-        //     },
-
-        //     resetAllStatus: function() {
-        //         var _this = this;
-
-        //         _this._gg.forEach((e, i) => {
-        //             if (!e.classList.contains('addcover')) {
-        //                 e.classList.add('addcover');
-        //             }
-
-        //             if (e.classList.contains('big')) {
-        //                 e.classList.remove('big');
-        //             }
-        //         });
-        //     },
-
-        //     setItemHeight: function (){
-        //         var _this = this;
-
-        //         // num
-        //         _this._defaultWidth = Math.round(_this._parent.clientWidth / 4);
-        //         _this._defaultHeight = _this._defaultWidth;
-
-        //         // child
-        //         _this._gg.forEach((e, i) => {
-        //             e.style.width = _this._defaultWidth + 'px';
-        //             e.style.height = _this._defaultHeight + 'px';
-        //         });
-
-        //         // parent
-        //         _this._parent.style.height = _this._defaultHeight * 4 + 'px';
-        //     },
-
-        //     bindEvent: function (){
-        //         var _this = this;
-        //         var _setItemHeight = _this.setItemHeight.bind(this);
-
-        //         window.addEventListener('resize', _setItemHeight, false);
-        //     },
-
-        //     doit: function (){
-        //         var _this = this;
-
-        //         _this._gg.forEach(function(e, i){
-        //             setTimeout(function(){
-
-        //                 _this.resetAllStatus();
-        //                 e.classList.remove('addcover');
-        //                 _this._num++;
-
-        //                 if (_this._num > 11) {
-        //                     _this._num = 0;
-
-        //                     if (_this._stop === true) {
-        //                         _this._lastNum++;
-        //                     }
-
-        //                     if (_this._lastNum > _this._lastMaxNum) {
-        //                         _this.ajaxResult(_this._resultNum)
-        //                         return;
-        //                     } else {
-        //                         console.log('doit')
-        //                         _this.doit();
-        //                     }
-        //                 }
-
-        //             }, (100 + (175 * _this._lastNum)) * (i + 1));
-
-        //         });
-
-        //     },
-
-        //     ajaxResult: function (_resultNum){
-        //         var _this = this;
-
-        //         // index 從 1 開始
-        //         var _index = +(_this._resultNum);
-
-        //         var _resultArr = _this._gg.slice(0, _index);
-                
-        //         _resultArr.forEach(function(e, i){
-        //             setTimeout(function(){
-                
-        //                 _this.resetAllStatus();
-        //                 e.classList.remove('addcover');
-
-        //             }, getTime(i + 1));
-
-        //         });
-        //     },
-
-        //     ajaxComing: function(num){
-        //         var _this = this;
-
-        //         _this._stop = true;
-        //         _this._resultNum = num;
-        //     }
-        // }
-
-
-
-
-        // var _lottery = new Lottery(
-        //     document.querySelector('.num'),
-        //     {
-        //         lastMaxNum: document.querySelector('input[name="circle"]').value === 0 ? 2 : document.querySelector('input[name="circle"]').value
-        //     }
-        // );
-
-        // var _stopEle = document.querySelector('.go');
-
-        // _stopEle.addEventListener('click', function(){
-        //     var _value = document.querySelector('input[name="result"]').value === 5 ? 5 : document.querySelector('input[name="result"]').value
-        //     _lottery.ajaxComing(_value);
-        // })
-
-
-
-        var _parent = document.querySelector('.num'),
-            _g = _parent.querySelectorAll('div'),
-            _gg = [].slice.call(_g);
-
-        var _num = 0,
-            _lastNum = 0,
-            _lastMaxNum = 2;
-
-        var _defaultWidth = 0,
-            _defaultHeight = 0;
-
-        var _stop = false,
-            _resultNum = null;
-
-        function ajaxResult(_resultNum){
-
-            // index 從 1 開始
-            var _index = _resultNum + 1;
-
-            var _resultArr = _gg.slice(0, _index);
-            
-            _resultArr.forEach(function(e, i){
-                setTimeout(function(){
-            
-                    resetAllStatus();
-                    e.classList.remove('addcover');
-
-                }, getTime(i + 1));
-
-            });
+            _this.init();
         }
 
-        
-        function doit(){
-            _gg.forEach(function(e, i){
-                setTimeout(function(){
+        Lottery.prototype = {
+            constructor: Lottery,
 
-                    resetAllStatus();
-                    e.classList.remove('addcover');
-                    _num++;
+            init: function(){
 
-                    if (_num > 11) {
-                        _num = 0;
+                var _this = this;
 
-                        if (_stop === true) {
-                            _lastNum++;
-                        }
+                _this.setItemHeight();
+                _this.bindEvent();
+                // _this.doit();
+                _this.doSomething();
+            },
 
-                        if (_lastNum > _lastMaxNum) {
-                            ajaxResult(_resultNum)
-                            return;
-                        } else {
-                            console.log('doit')
-                            doit();
-                        }
+            resetAllStatus: function() {
+                var _this = this;
+
+                _this._gg.forEach((e, i) => {
+                    if (!e.classList.contains('addcover')) {
+                        e.classList.add('addcover');
                     }
 
-                }, (100 + (175 * _lastNum)) * (i + 1));
+                    if (e.classList.contains('big')) {
+                        e.classList.remove('big');
+                    }
+                });
+            },
 
-            });
+            setItemHeight: function (){
+                var _this = this;
 
-        }
+                // num
+                _this._defaultWidth = Math.round(_this._parent.clientWidth / 4);
+                _this._defaultHeight = _this._defaultWidth;
 
-        function resetAllStatus() {
-            _gg.forEach((e, i) => {
-                if (!e.classList.contains('addcover')) {
-                    e.classList.add('addcover');
+                // child
+                _this._gg.forEach((e, i) => {
+                    e.style.width = _this._defaultWidth + 'px';
+                    e.style.height = _this._defaultHeight + 'px';
+                });
+
+                // parent
+                _this._parent.style.height = _this._defaultHeight * 4 + 'px';
+            },
+
+            bindEvent: function (){
+                var _this = this;
+                var _setItemHeight = _this.setItemHeight.bind(this);
+
+                window.addEventListener('resize', _setItemHeight, false);
+            },
+
+            doSomething: function(){
+
+                var _this = this;
+
+                var foo = null; // object
+                var num = null;
+                var index = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve']
+
+                function doMove() {
+
+                    num++;
+
+                    if (num > 11) {
+                        num = 0;
+                    }
+
+                    foo.className = 'fooObject';
+                    foo.classList.add(index[num])
+
+                    setTimeout(doMove, 100); // call doMove in 20msec
                 }
 
-                if (e.classList.contains('big')) {
-                    e.classList.remove('big');
+                function init() {
+                    foo = document.querySelector('.fooObject'); // get the "foo" object
+
+                    
+                        foo.style.width = _this._defaultWidth + 'px';
+                        foo.style.height = _this._defaultHeight + 'px';
+                    
+
+                    doMove(); // start animating
                 }
-            });
+
+                window.onload = init;
+            },
+
+            doit: function (){
+                var _this = this;
+
+                _this._gg.forEach(function(e, i){
+                    setTimeout(function(){
+
+                        _this.resetAllStatus();
+                        e.classList.remove('addcover');
+                        _this._num++;
+
+                        if (_this._num > 11) {
+                            _this._num = 0;
+
+                            if (_this._stop === true) {
+                                _this._lastNum++;
+                            }
+
+                            if (_this._lastNum > _this._lastMaxNum) {
+                                _this.ajaxResult(_this._resultNum)
+                                return;
+                            } else {
+                                console.log('doit')
+                                _this.doit();
+                            }
+                        }
+
+                    }, (100 + (175 * _this._lastNum)) * (i + 1));
+
+                });
+
+            },
+
+            ajaxResult: function (_resultNum){
+                var _this = this;
+
+                // index 從 1 開始
+                var _index = +(_this._resultNum);
+
+                var _resultArr = _this._gg.slice(0, _index);
+                
+                _resultArr.forEach(function(e, i){
+                    setTimeout(function(){
+                
+                        _this.resetAllStatus();
+                        e.classList.remove('addcover');
+
+                    }, getTime(i + 1));
+
+                });
+            },
+
+            ajaxComing: function(num){
+                var _this = this;
+
+                _this._stop = true;
+                _this._resultNum = num;
+            }
         }
 
-        function setItemHeight(){
 
-            // num
-            _defaultWidth = Math.round(_parent.clientWidth / 4);
-            _defaultHeight = _defaultWidth;
 
-            // child
-            _gg.forEach((e, i) => {
-                e.style.width = _defaultWidth + 'px';
-                e.style.height = _defaultHeight + 'px';
-            });
 
-            // parent
-            _parent.style.height = _defaultHeight * 4 + 'px';
-        }
+        var _lottery = new Lottery(
+            document.querySelector('.num'),
+            {
+                lastMaxNum: document.querySelector('input[name="circle"]').value === 0 ? 2 : document.querySelector('input[name="circle"]').value
+            }
+        );
 
-        function bindEvent(){
-            var _stopEle = document.querySelector('.go');
+        var _stopEle = document.querySelector('.go');
 
-            _stopEle.addEventListener('click', function(){
-                _stop = true;
-                _resultNum = 5;
-            })
-        }
+        _stopEle.addEventListener('click', function(){
+            var _value = document.querySelector('input[name="result"]').value === 5 ? 5 : document.querySelector('input[name="result"]').value
+            _lottery.ajaxComing(_value);
+        })
 
-        window.addEventListener('resize', setItemHeight, false);
 
-        document.addEventListener('DOMContentLoaded', init.bind(this), false);
 
-        function init(){
-            setItemHeight();
-            bindEvent();
-            doit();
-        }
+        // var _parent = document.querySelector('.num'),
+        //     _g = _parent.querySelectorAll('div'),
+        //     _gg = [].slice.call(_g);
+
+        // var _num = 0,
+        //     _lastNum = 0,
+        //     _lastMaxNum = 2;
+
+        // var _defaultWidth = 0,
+        //     _defaultHeight = 0;
+
+        // var _stop = false,
+        //     _resultNum = null;
+
+        // function ajaxResult(_resultNum){
+
+        //     // index 從 1 開始
+        //     var _index = _resultNum + 1;
+
+        //     var _resultArr = _gg.slice(0, _index);
+            
+        //     _resultArr.forEach(function(e, i){
+        //         setTimeout(function(){
+            
+        //             resetAllStatus();
+        //             e.classList.remove('addcover');
+
+        //         }, getTime(i + 1));
+
+        //     });
+        // }
+
+        
+        // function doit(){
+        //     _gg.forEach(function(e, i){
+        //         setTimeout(function(){
+
+        //             resetAllStatus();
+        //             e.classList.remove('addcover');
+        //             _num++;
+
+        //             if (_num > 11) {
+        //                 _num = 0;
+
+        //                 if (_stop === true) {
+        //                     _lastNum++;
+        //                 }
+
+        //                 if (_lastNum > _lastMaxNum) {
+        //                     ajaxResult(_resultNum)
+        //                     return;
+        //                 } else {
+        //                     console.log('doit')
+        //                     doit();
+        //                 }
+        //             }
+
+        //         }, (100 + (175 * _lastNum)) * (i + 1));
+
+        //     });
+
+        // }
+
+        // function resetAllStatus() {
+        //     _gg.forEach((e, i) => {
+        //         if (!e.classList.contains('addcover')) {
+        //             e.classList.add('addcover');
+        //         }
+
+        //         if (e.classList.contains('big')) {
+        //             e.classList.remove('big');
+        //         }
+        //     });
+        // }
+
+        // function setItemHeight(){
+
+        //     // num
+        //     _defaultWidth = Math.round(_parent.clientWidth / 4);
+        //     _defaultHeight = _defaultWidth;
+
+        //     // child
+        //     _gg.forEach((e, i) => {
+        //         e.style.width = _defaultWidth + 'px';
+        //         e.style.height = _defaultHeight + 'px';
+        //     });
+
+        //     // parent
+        //     _parent.style.height = _defaultHeight * 4 + 'px';
+        // }
+
+        // function bindEvent(){
+        //     var _stopEle = document.querySelector('.go');
+
+        //     _stopEle.addEventListener('click', function(){
+        //         _stop = true;
+        //         _resultNum = 5;
+        //     })
+        // }
+
+        // window.addEventListener('resize', setItemHeight, false);
+
+        // document.addEventListener('DOMContentLoaded', init.bind(this), false);
+
+        // function init(){
+            // setItemHeight();
+            // bindEvent();
+            // doit();
+        // }
 
 
     </script>
