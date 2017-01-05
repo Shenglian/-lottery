@@ -30,21 +30,12 @@
               -webkit-font-smoothing: antialiased;
             }
             
-            .group {
+            .lottery-group {
               position: relative;
               width: 100%;
             }
 
-            .cover {
-                position: absolute;
-                width: 50px;
-                height: 50px;
-                background-color: #ff0000;
-                box-shadow: 0 0 0 1px #ddd;
-                z-index: 10;
-            }
-
-            .num div,
+            .lottery-number div,
             .go {
               position: absolute;
               width: 25%;
@@ -55,12 +46,12 @@
               color: #fff;
             }
 
-            .num div {
+            .lottery-number div {
               -webkit-background-size: cover;
               background-size: cover;
             }
 
-            .num div.addcover:before {
+            .lottery-number div.addcover:before {
               position: absolute;
               content: '';
               top: 0;
@@ -159,20 +150,20 @@
         </style>
     </head>
     <body>
-        <div class="group">
-            <div class="num">
-                <div class="addcover one" style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
-                <div class="addcover two" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
-                <div class="addcover three" style="background-image: url('http://www.gratisography.com/pictures/338_1.jpg')"></div>
-                <div class="addcover four" style="background-image: url('http://www.gratisography.com/pictures/342_1.jpg')"></div>
-                <div class="addcover five" style="background-image: url('http://www.gratisography.com/pictures/347_1.jpg')"></div>
-                <div class="addcover six" style="background-image: url('http://www.gratisography.com/pictures/350_1.jpg')"></div>
-                <div class="addcover seven" style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
-                <div class="addcover eight" style="background-image: url('http://www.gratisography.com/pictures/340_1.jpg')"></div>
-                <div class="addcover nine" style="background-image: url('http://www.gratisography.com/pictures/342_1.jpg')"></div>
-                <div class="addcover ten" style="background-image: url('http://www.gratisography.com/pictures/338_1.jpg')"></div>
-                <div class="addcover eleven" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
-                <div class="addcover twelve" style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
+        <div class="lottery-group">
+            <div class="lottery-number">
+                <div style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/338_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/342_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/347_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/350_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/340_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/342_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/338_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
             </div>
             <div class="go"> RESULT </div>
         </div>
@@ -208,11 +199,6 @@
                     };
         })();
 
-        function getTime(t) {
-            var tt = Math.round(t * 100 / 24 * 100);
-            return tt;
-        }
-
         function Lottery(element, options){
             
             var _this = this;
@@ -221,10 +207,10 @@
             _this._g = _this._parent.querySelectorAll('div'),
             _this._gg = [].slice.call(_this._g);
 
-            _this.cover = document.querySelector('.cover'); // object
             _this.classnames = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
 
-            _this.fps = 15;
+            _this._fps = 1000 / 15;
+            _this._slowSpeed = 100;
 
             _this._num = 0,
             _this._numTwo = 0,
@@ -249,10 +235,19 @@
 
                 var _this = this;
 
+                _this.addClassNameItems();
                 _this.setItemHeight();
                 _this.bindEvent();
                 _this.doAnimate();
+            },
 
+            // 設定 classname
+            addClassNameItems: function(){
+                var _this = this;
+
+                _this._gg.forEach((e, i) => {
+                    e.className = 'addcover ' + _this.classnames[i];
+                });
             },
 
             resetAllStatus: function() {
@@ -289,7 +284,7 @@
                 window.addEventListener('resize', _setItemHeight, false);
             },
 
-            doAnimateAjax: function (_resultNum){
+            doAnimateAjax: function (_resultNum, _lastNum){
                 var _this = this;
 
                 // index 從 1 開始
@@ -297,20 +292,20 @@
 
                 (function animateTwo() {
 
-                    _this.resetAllStatus();
-                    _this._gg[_this._numTwo].classList.remove('addcover');
-
-                    _this._numTwo++;
-
                     if (_this._numTwo > _index - 1) {
                         
                         _this.resetSetting();
                         return;
                     }
 
+                    _this.resetAllStatus();
+                    _this._gg[_this._numTwo].classList.remove('addcover');
+
+                    _this._numTwo++;      
+
                     setTimeout(function() {
                         requestAnimationFrame(animateTwo);
-                    }, 1000 / _this.fps);
+                    }, _this._fps + _this._slowSpeed * _lastNum);
 
                 })()
             },
@@ -327,12 +322,8 @@
 
                 (function animate() {
 
-                    _this.resetAllStatus();
-                    _this._gg[_this._num].classList.remove('addcover');
-
-                    _this._num++;
-
                     if (_this._num > 11) {
+
                         _this._num = 0;
 
                         if (_this._stop === true) {
@@ -340,15 +331,19 @@
                         }
 
                         if (_this._lastNum > _this._lastMaxNum) {
-                            _this.doAnimateAjax(_this._resultNum)
+                            _this.doAnimateAjax(_this._resultNum, _this._lastNum)
                             return;
                         }
-
                     }
+
+                    _this.resetAllStatus();
+                    _this._gg[_this._num].classList.remove('addcover');
+
+                    _this._num++;
 
                     setTimeout(function() {
                         requestAnimationFrame(animate);
-                    }, 1000 / _this.fps);
+                    }, _this._fps + _this._slowSpeed * _this._lastNum);
 
                 })()
 
@@ -381,7 +376,7 @@
         }
 
         var _lottery = new Lottery(
-            document.querySelector('.num'),
+            document.querySelector('.lottery-number'),
             {
                 lastMaxNum: 5
             }
