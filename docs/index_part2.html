@@ -35,7 +35,7 @@
               width: 100%;
             }
 
-            .fooObject {
+            .cover {
                 position: absolute;
                 width: 50px;
                 height: 50px;
@@ -150,7 +150,7 @@
     </head>
     <body>
         <div class="group">
-            <div class="fooObject"></div>
+            <div class="cover"></div>
             <div class="num">
                 <div class="addcover one" style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
                 <div class="addcover two" style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
@@ -202,38 +202,17 @@
             return tt;
         }
 
-        var requestId = 0;
-        var startime = 0;
-        var lpos = 0;
-        var elm;
-
-        var foo = document.querySelector('.fooObject'); // object
-        var num = null;
-        var index = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
-
-        var fps = 20;
-
-        (function animate() {
-            num++;
-
-            if (num > 11) {
-                num = 0;
-            }
-
-            foo.className = 'fooObject';
-            foo.classList.add(index[num])
-
-          setTimeout(function() {
-            requestAnimationFrame(animate);
-          }, 1000 / fps);
-        })()
-
         function Lottery(element, options){
             var _this = this;
 
             _this._parent = element,
             _this._g = _this._parent.querySelectorAll('div'),
             _this._gg = [].slice.call(_this._g);
+
+            _this.cover = document.querySelector('.cover'); // object
+            _this.classnames = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
+
+            _this.fps = 20;
 
             _this._num = 0,
             _this._lastNum = 0,
@@ -258,7 +237,7 @@
                 _this.setItemHeight();
                 _this.bindEvent();
                 // _this.doit();
-                // _this.doSomething();
+                _this.doAnimate();
             },
 
             resetAllStatus: function() {
@@ -299,14 +278,25 @@
                 window.addEventListener('resize', _setItemHeight, false);
             },
 
-            doSomething: function(){
-
+            doAnimate: function(){
                 var _this = this;
 
+                (function animate() {
+                    _this._num++;
+                    console.log('_this._num', _this._num)
 
-                // place the rAF *before* the render() to assure as close to
-                // 60fps with the setTimeout fallback.
+                    if (_this._num > 11) {
+                        _this._num = 0;
+                    }
 
+                    _this.cover.className = 'cover';
+                    _this.cover.classList.add(_this.classnames[_this._num])
+
+                    setTimeout(function() {
+                        requestAnimationFrame(animate);
+                    }, 1000 / _this.fps);
+
+                })()
 
             },
 
