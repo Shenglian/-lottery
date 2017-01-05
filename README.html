@@ -18,8 +18,7 @@
 
 <h3 id="quickstart">Quick start</h3>
 
-<pre><code class="html">&lt;!-- a block container is required --&gt;
-&lt;div class=&quot;lottery-group&quot;&gt;
+<pre><code class="html">&lt;div class=&quot;lottery-group&quot;&gt;
   &lt;div class=&quot;lottery-number&quot;&gt;
       &lt;div style=&quot;background-image: url('http://www.gratisography.com/pictures/361_1.jpg')&quot;&gt;&lt;/div&gt;
       &lt;div style=&quot;background-image: url('http://www.gratisography.com/pictures/360_1.jpg')&quot;&gt;&lt;/div&gt;
@@ -60,35 +59,47 @@
 
 <h2 id="methods">Methods</h2>
 
-<p>All methods allow chain composition.</p>
+<pre><code class="js">
+var _lottery = new Lottery(
+  document.querySelector('.lottery-number')
+);
 
-<p>As there are some <strong>asynchronous</strong> processes when start the viewer, you should call a method only when it is available, see the following <strong>lifecycle</strong>:</p>
+_lottery.doAnimate();
+_lottery.setCircleNum(_circle);
+_lottery.setResultItem(_result);
+_lottery.stop();
 
-<pre><code class="js">new Viewer(image, {
-  ready: function () {
-    // 2 methods are available here: &quot;show&quot; and &quot;destroy&quot;.
-  },
-  shown: function () {
-    // 9 methods are available here: &quot;hide&quot;, &quot;view&quot;, &quot;prev&quot;, &quot;next&quot;, &quot;play&quot;, &quot;stop&quot;, &quot;full&quot;, &quot;exit&quot; and &quot;destroy&quot;.
-  },
-  viewed: function () {
-    // All methods are available here except &quot;show&quot;.
-    this.viewer.zoomTo(1).rotateTo(180);
-  }
-});
 </code></pre>
 
-<h3 id="show">show()</h3>
+<h3 id="setcirclenumcirclevalue">setCircleNum(circleValue)</h3>
 
-<p>Show the viewer.</p>
+<ul>
+<li><strong>circleValue</strong>:</li>
+<li>Type: <code>Number</code></li>
+</ul>
 
-<blockquote>
-<p>Only available in modal mode.</p>
-</blockquote>
+<p>設定最後轉動圈數</p>
+
+<h3 id="setresultitemresultitemnum">setResultItem(resultItemNum)</h3>
+
+<ul>
+<li><strong>resultItemNum</strong>:</li>
+<li>Type: <code>Number</code></li>
+</ul>
+
+<p>設定最後產生結果</p>
+
+<h3 id="doanimate">doAnimate()</h3>
+
+<p>啟動抽獎</p>
+
+<h3 id="stop">stop()</h3>
+
+<p>停止轉動</p>
 
 <h2 id="license">License</h2>
 
-<p><a href="http://opensource.org/licenses/MIT">MIT</a> © <a href="http://chenfengyuan.com">Sheng </a></p>
+<p><a href="http://opensource.org/licenses/MIT">MIT</a> © <a href="https://github.com/Shenglian">Sheng</a></p>
 
 <p><a href="#getting-started">⬆ back to top</a></p>
 

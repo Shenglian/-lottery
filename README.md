@@ -9,7 +9,6 @@
 ### Quick start
 
 ```html
-<!-- a block container is required -->
 <div class="lottery-group">
   <div class="lottery-number">
       <div style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
@@ -37,7 +36,6 @@ var _lottery = new Lottery(
 );
 ```
 
-
 ## Options
 
 ### lastMaxNum
@@ -51,43 +49,46 @@ var _lottery = new Lottery(
 [⬆ back to top](#getting-started)
 
 
-
 ## Methods
 
-All methods allow chain composition.
-
-As there are some **asynchronous** processes when start the viewer, you should call a method only when it is available, see the following **lifecycle**:
-
 ```js
-new Viewer(image, {
-  ready: function () {
-    // 2 methods are available here: "show" and "destroy".
-  },
-  shown: function () {
-    // 9 methods are available here: "hide", "view", "prev", "next", "play", "stop", "full", "exit" and "destroy".
-  },
-  viewed: function () {
-    // All methods are available here except "show".
-    this.viewer.zoomTo(1).rotateTo(180);
-  }
-});
+
+var _lottery = new Lottery(
+  document.querySelector('.lottery-number')
+);
+
+_lottery.doAnimate();
+_lottery.setCircleNum(_circle);
+_lottery.setResultItem(_result);
+_lottery.stop();
+
 ```
 
+### setCircleNum(circleValue)
+- **circleValue**:
+  - Type: `Number`
 
-### show()
+設定最後轉動圈數
 
-Show the viewer.
+### setResultItem(resultItemNum)
+- **resultItemNum**:
+  - Type: `Number`
 
-> Only available in modal mode.
+設定最後產生結果
 
+### doAnimate()
 
+啟動抽獎
+
+### stop()
+
+停止轉動
 
 
 
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Sheng ](http://chenfengyuan.com)
-
+[MIT](http://opensource.org/licenses/MIT) © [Sheng](https://github.com/Shenglian)
 
 [⬆ back to top](#getting-started)
