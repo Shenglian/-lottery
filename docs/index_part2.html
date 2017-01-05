@@ -203,6 +203,7 @@
         }
 
         function Lottery(element, options){
+            console.log('options.lastMaxNum', options.lastMaxNum)
             var _this = this;
 
             _this._parent = element,
@@ -215,6 +216,7 @@
             _this.fps = 15;
 
             _this._num = 0,
+            _this._numTwo = 0,
             _this._lastNum = 0,
             _this._lastMaxNum = options.lastMaxNum || 2;
 
@@ -277,6 +279,28 @@
                 window.addEventListener('resize', _setItemHeight, false);
             },
 
+            doAnimateTwo: function (_resultNum){
+                var _this = this;
+
+                // index 從 1 開始
+                var _index = +(_this._resultNum);
+
+                (function animateTwo() {
+
+                    _this.resetAllStatus();
+                    _this._gg[_this._numTwo].classList.remove('addcover');
+
+                    _this._numTwo++;
+
+                    if (_this._numTwo > _index - 1) return;
+
+                    setTimeout(function() {
+                        requestAnimationFrame(animateTwo);
+                    }, 1000 / _this.fps);
+
+                })()
+            },
+
             doAnimate: function(){
                 var _this = this;
 
@@ -289,10 +313,21 @@
 
                     if (_this._num > 11) {
                         _this._num = 0;
-                    }
 
-                    // _this.cover.className = 'cover';
-                    // _this.cover.classList.add(_this.classnames[_this._num])
+                        if (_this._stop === true) {
+                            console.log('_this._lastNum', _this._lastNum)
+                            _this._lastNum++;
+                        }
+
+                        if (_this._lastNum > _this._lastMaxNum) {
+                            console.log('_this._lastMaxNum', _this._lastMaxNum)
+                            _this.doAnimateTwo(_this._resultNum)
+                            return;
+                        } else {
+                            console.log('doit')
+                        }
+
+                    }
 
                     setTimeout(function() {
                         requestAnimationFrame(animate);
@@ -302,80 +337,39 @@
 
             },
 
-            doit: function (){
+            setResultItem: function(num){
                 var _this = this;
-
-                _this._gg.forEach(function(e, i){
-                    setTimeout(function(){
-
-                        _this.resetAllStatus();
-                        e.classList.remove('addcover');
-                        _this._num++;
-
-                        if (_this._num > 11) {
-                            _this._num = 0;
-
-                            if (_this._stop === true) {
-                                _this._lastNum++;
-                            }
-
-                            if (_this._lastNum > _this._lastMaxNum) {
-                                _this.ajaxResult(_this._resultNum)
-                                return;
-                            } else {
-                                console.log('doit')
-                                _this.doit();
-                            }
-                        }
-
-                    }, (100 + (175 * _this._lastNum)) * (i + 1));
-
-                });
-
-            },
-
-            ajaxResult: function (_resultNum){
-                var _this = this;
-
-                // index 從 1 開始
-                var _index = +(_this._resultNum);
-
-                var _resultArr = _this._gg.slice(0, _index);
-                
-                _resultArr.forEach(function(e, i){
-                    setTimeout(function(){
-                
-                        _this.resetAllStatus();
-                        e.classList.remove('addcover');
-
-                    }, getTime(i + 1));
-
-                });
-            },
-
-            ajaxComing: function(num){
-                var _this = this;
-
-                _this._stop = true;
                 _this._resultNum = num;
+            },
+
+            stop: function(){
+                var _this = this;
+                _this._stop = true;
+            },
+
+            setCircleNum: function(num){
+                var _this = this;
+                _this._lastMaxNum = num;
             }
         }
-
-
-
 
         var _lottery = new Lottery(
             document.querySelector('.num'),
             {
-                lastMaxNum: document.querySelector('input[name="circle"]').value === 0 ? 2 : document.querySelector('input[name="circle"]').value
+                lastMaxNum: 5
             }
         );
 
         var _stopEle = document.querySelector('.go');
 
         _stopEle.addEventListener('click', function(){
-            var _value = document.querySelector('input[name="result"]').value === 5 ? 5 : document.querySelector('input[name="result"]').value
-            _lottery.ajaxComing(_value);
+
+            var _circle = document.querySelector('input[name="circle"]').value === 2 ? 2 : document.querySelector('input[name="circle"]').value
+            var _result = document.querySelector('input[name="result"]').value === 5 ? 5 : document.querySelector('input[name="result"]').value
+
+            _lottery.setCircleNum(_circle);
+            _lottery.setResultItem(_result);
+            _lottery.stop();
         })
 
 
