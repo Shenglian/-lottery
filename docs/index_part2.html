@@ -174,10 +174,59 @@
 
     <script type="text/javascript">
 
+        // handle multiple browsers for requestAnimationFrame()
+        window.requestAFrame = (function () {
+            return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    // if all else fails, use setTimeout
+                    function (callback) {
+                        return window.setTimeout(callback, 1000 / 60); // shoot for 60 fps
+                    };
+        })();
+
+        // handle multiple browsers for cancelAnimationFrame()
+        window.cancelAFrame = (function () {
+            return window.cancelAnimationFrame ||
+                    window.webkitCancelAnimationFrame ||
+                    window.mozCancelAnimationFrame ||
+                    window.oCancelAnimationFrame ||
+                    function (id) {
+                        window.clearTimeout(id);
+                    };
+        })();
+
         function getTime(t) {
             var tt = Math.round(t * 100 / 24 * 100);
             return tt;
         }
+
+        var requestId = 0;
+        var startime = 0;
+        var lpos = 0;
+        var elm;
+
+        var foo = document.querySelector('.fooObject'); // object
+        var num = null;
+        var index = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
+
+        var fps = 30;
+
+        (function animate() {
+            num++;
+
+            if (num > 11) {
+                num = 0;
+            }
+
+            foo.className = 'fooObject';
+            foo.classList.add(index[num])
+
+          setTimeout(function() {
+            requestAnimationFrame(animate);
+          }, 1000 / fps);
+        })()
 
         function Lottery(element, options){
             var _this = this;
@@ -209,7 +258,7 @@
                 _this.setItemHeight();
                 _this.bindEvent();
                 // _this.doit();
-                _this.doSomething();
+                // _this.doSomething();
             },
 
             resetAllStatus: function() {
@@ -254,36 +303,11 @@
 
                 var _this = this;
 
-                var foo = null; // object
-                var num = null;
-                var index = ['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve']
 
-                function doMove() {
+                // place the rAF *before* the render() to assure as close to
+                // 60fps with the setTimeout fallback.
 
-                    num++;
 
-                    if (num > 11) {
-                        num = 0;
-                    }
-
-                    foo.className = 'fooObject';
-                    foo.classList.add(index[num])
-
-                    setTimeout(doMove, 100); // call doMove in 20msec
-                }
-
-                function init() {
-                    foo = document.querySelector('.fooObject'); // get the "foo" object
-
-                    
-                        foo.style.width = _this._defaultWidth + 'px';
-                        foo.style.height = _this._defaultHeight + 'px';
-                    
-
-                    doMove(); // start animating
-                }
-
-                window.onload = init;
             },
 
             doit: function (){
