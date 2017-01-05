@@ -1,0 +1,90 @@
+.lottery-group {
+  position: relative;
+  width: 100%;
+}
+
+.lottery-number div,
+.go {
+  position: absolute;
+  width: 25%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+}
+
+.lottery-number div {
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.lottery-number div.addcover:before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.one {
+    top: 0;
+    left: 0;
+}
+
+.two {
+    top: 0;
+    left: 25%;
+}
+
+.three {
+    top: 0;
+    left: 50%;
+}
+
+.four {
+    top: 0;
+    right: 0;
+}
+
+.five {
+    top: 25%;
+    right: 0;
+}
+
+.six {
+    top: 50%;
+    right: 0;
+}
+
+.seven {
+    right: 0;
+    bottom: 0;
+}
+
+.eight {
+    right: 25%;
+    bottom: 0;
+}
+
+.nine {
+    right: 50%;
+    bottom: 0;
+}
+
+.ten {
+    left: 0;
+    bottom: 0;
+}
+
+.eleven {
+    left: 0;
+    bottom: 25%;
+}
+
+.twelve {
+    left: 0;
+    bottom: 50%;
+}

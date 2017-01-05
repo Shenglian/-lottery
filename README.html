@@ -18,6 +18,8 @@
 
 <h3 id="quickstart">Quick start</h3>
 
+<p>include lottery.js and lottery.css</p>
+
 <pre><code class="html">&lt;div class=&quot;lottery-group&quot;&gt;
   &lt;div class=&quot;lottery-number&quot;&gt;
       &lt;div style=&quot;background-image: url('http://www.gratisography.com/pictures/361_1.jpg')&quot;&gt;&lt;/div&gt;
@@ -42,6 +44,34 @@
     lastMaxNum: 5
   }
 );
+</code></pre>
+
+<h2 id="polyfill">Polyfill</h2>
+
+<pre><code class="js">// 有使用 requestAnimationFrame ， 這是當沒有支援時候的 Polyfill 
+// handle multiple browsers for requestAnimationFrame()
+window.requestAFrame = (function () {
+    return window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            // if all else fails, use setTimeout
+            function (callback) {
+                return window.setTimeout(callback, 1000 / 60); // shoot for 60 fps
+            };
+})();
+
+// handle multiple browsers for cancelAnimationFrame()
+window.cancelAFrame = (function () {
+    return window.cancelAnimationFrame ||
+            window.webkitCancelAnimationFrame ||
+            window.mozCancelAnimationFrame ||
+            window.oCancelAnimationFrame ||
+            function (id) {
+                window.clearTimeout(id);
+            };
+})();
+
 </code></pre>
 
 <h2 id="options">Options</h2>

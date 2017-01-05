@@ -8,6 +8,8 @@
 
 ### Quick start
 
+include lottery.js and lottery.css
+
 ```html
 <div class="lottery-group">
   <div class="lottery-number">
@@ -34,6 +36,34 @@ var _lottery = new Lottery(
     lastMaxNum: 5
   }
 );
+```
+
+## Polyfill
+```js
+// 有使用 requestAnimationFrame ， 這是當沒有支援時候的 Polyfill 
+// handle multiple browsers for requestAnimationFrame()
+window.requestAFrame = (function () {
+    return window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            // if all else fails, use setTimeout
+            function (callback) {
+                return window.setTimeout(callback, 1000 / 60); // shoot for 60 fps
+            };
+})();
+
+// handle multiple browsers for cancelAnimationFrame()
+window.cancelAFrame = (function () {
+    return window.cancelAnimationFrame ||
+            window.webkitCancelAnimationFrame ||
+            window.mozCancelAnimationFrame ||
+            window.oCancelAnimationFrame ||
+            function (id) {
+                window.clearTimeout(id);
+            };
+})();
+
 ```
 
 ## Options
