@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>JS Lottery</title>
+        <style>
+            html,
+            body {
+              margin: 0;
+              padding: 0;
+            }
+
+            body {
+              display: -webkit-flex;
+              display: -moz-flex;
+              display: -ms-flex;
+              display: -o-flex;
+              display: flex;
+
+              width: 100%;
+
+              flex-direction: column;
+
+              font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+              letter-spacing: 0;
+              font-weight: 400;
+              font-style: normal;
+              text-rendering: optimizeLegibility;
+              -webkit-font-smoothing: antialiased;
+            }
+            
+            .go {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              
+              width: 25%;
+              height: 50px;
+              line-height: 50px;
+              text-align: center;
+              background-color: #000;
+              color: #fff;
+              transform: translate(-50%, -50%);
+            }
+
+            input {
+                margin: 20px;
+                padding: 5px;
+                height: 44px;
+                border: 1px solid #333;
+                line-height: 44px;
+                color: #333;
+                font-size: 14px;
+            }
+
+            .reset_btn {
+                margin: 20px;
+                height: 44px;
+                line-height: 44px;
+                text-align: center;
+                background-color: #5D563A;
+                font-size: 14px;
+                color: #fff;
+            }
+
+        </style>
+        <link href="css/lottery.css" media="all" rel="stylesheet">
+    </head>
+    <body>
+        <div class="lottery-group">
+            <div class="lottery-number">
+                <div style="background-image: url('http://www.gratisography.com/pictures/361_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/338_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/342_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/347_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/350_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/340_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/342_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/338_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/360_1.jpg')"></div>
+                <div style="background-image: url('http://www.gratisography.com/pictures/357_1.jpg')"></div>
+            </div>
+            <div class="go"> RESULT </div>
+        </div>
+
+        <input type="number" name="circle" placeholder="設定 ajax 回來多轉的圈數" value=2>
+        <input type="number" name="result" placeholder="設定 ajax 回來的結果" value=5>
+
+        <div class="reset_btn"> 重新開始 </div>
+    </body>
+
+    <script type="text/javascript" src="js/lottery.js"></script>
+
+    <script type="text/javascript">
+        window.requestAFrame = (function () {
+            return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    // if all else fails, use setTimeout
+                    function (callback) {
+                        return window.setTimeout(callback, 1000 / 60); // shoot for 60 fps
+                    };
+        })();
+
+        window.cancelAFrame = (function () {
+            return window.cancelAnimationFrame ||
+                    window.webkitCancelAnimationFrame ||
+                    window.mozCancelAnimationFrame ||
+                    window.oCancelAnimationFrame ||
+                    function (id) {
+                        window.clearTimeout(id);
+                    };
+        })();
+    </script>
+    
+    <script type="text/javascript">
+
+        var _lottery = new Lottery(
+            document.querySelector('.lottery-number')
+        );
+
+        var _stopEle = document.querySelector('.go');
+
+        _stopEle.addEventListener('click', function(){
+
+            var _circle = document.querySelector('input[name="circle"]').value === 2 ? 2 : document.querySelector('input[name="circle"]').value
+            var _result = document.querySelector('input[name="result"]').value === 5 ? 5 : document.querySelector('input[name="result"]').value
+
+            // ajax callback
+            _lottery.setCircleNum(_circle);
+            _lottery.setResultItem(_result);
+            _lottery.stop();
+
+        });
+
+        var _resetEle = document.querySelector('.reset_btn');
+
+        _resetEle.addEventListener('click', function(){
+            _lottery.doAnimate();
+        });
+
+    </script>
+</html>
