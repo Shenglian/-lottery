@@ -31,10 +31,7 @@ include lottery.js and lottery.css
 
 ```js
 var _lottery = new Lottery(
-  document.querySelector('.lottery-number'),
-  {
-    lastMaxNum: 5
-  }
+  document.querySelector('.lottery-number')
 );
 ```
 
@@ -65,19 +62,6 @@ window.cancelAFrame = (function () {
 })();
 
 ```
-
-## Options
-
-### lastMaxNum
-
-- Type: `Number`
-- Default: `2`
-
-產生結果前最後轉動的圈數
-
-
-[⬆ back to top](#getting-started)
-
 
 ## Methods
 
