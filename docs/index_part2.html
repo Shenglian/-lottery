@@ -215,7 +215,7 @@
             _this._num = 0,
             _this._numTwo = 0,
             _this._lastNum = 0,
-            _this._lastMaxNum = options.lastMaxNum || 2;
+            _this._lastMaxNum = 2,
 
             _this._defaultWidth = 0,
             _this._defaultHeight = 0;
@@ -376,10 +376,7 @@
         }
 
         var _lottery = new Lottery(
-            document.querySelector('.lottery-number'),
-            {
-                lastMaxNum: 5
-            }
+            document.querySelector('.lottery-number')
         );
 
         var _stopEle = document.querySelector('.go');

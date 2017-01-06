@@ -14,7 +14,7 @@ function Lottery(element, options){
     _this._num = 0,
     _this._numTwo = 0,
     _this._lastNum = 0,
-    _this._lastMaxNum = options.lastMaxNum || 2;
+    _this._lastMaxNum = 2,
 
     _this._defaultWidth = 0,
     _this._defaultHeight = 0;
