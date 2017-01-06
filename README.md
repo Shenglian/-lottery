@@ -2,7 +2,7 @@
 
 > JavaScript Lottery.
 
-- [Website](https://shenglian.github.io/-lottery/index_part2.html)
+- [Website](https://shenglian.github.io/-lottery/index_part2_demo.html)
 
 ## Getting started
 
