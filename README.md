@@ -84,11 +84,14 @@ _lottery.stop();
 
 設定最後轉動圈數
 
-### setResultItem(resultItemNum)
+### setResultItem(resultItemNum, callback)
 - **resultItemNum**:
   - Type: `Number`
+- **callback**:
+  - Type: `Function`
 
-設定最後產生結果
+resultItemNum : 設定最後產生結果
+callback : 設定最後產生結果的事件
 
 ### doAnimate()
 

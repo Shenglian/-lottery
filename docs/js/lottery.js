@@ -24,6 +24,7 @@
 
         _this._fps = 1000 / 15;
         _this._slowSpeed = 100;
+        _this.callback = null;
 
         _this._num = 0,
         _this._numTwo = 0,
@@ -108,6 +109,7 @@
                 if (_this._numTwo > _index - 1) {
                     
                     _this.resetSetting();
+                    _this.callback === null ? null : _this.callback();
                     return;
                 }
 
@@ -172,9 +174,10 @@
             _this._stop = false;
         },
 
-        setResultItem: function(num){
+        setResultItem: function(num, callback){
             var _this = this;
             _this._resultNum = num;
+            _this.callback = callback;
         },
 
         setCircleNum: function(num){

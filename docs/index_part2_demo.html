@@ -132,7 +132,9 @@
 
             // ajax callback
             _lottery.setCircleNum(_circle);
-            _lottery.setResultItem(_result);
+            _lottery.setResultItem(_result, function(){
+              console.log('我是call back')
+            });
             _lottery.stop();
 
         });
