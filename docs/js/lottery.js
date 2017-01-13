@@ -115,7 +115,6 @@
 
                 _this.resetAllStatus();
                 _this._gg[_this._numTwo].classList.remove('addcover');
-
                 _this._numTwo++;      
 
                 setTimeout(function() {
